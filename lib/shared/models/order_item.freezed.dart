@@ -22,10 +22,14 @@ OrderItem _$OrderItemFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$OrderItem {
   String get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'product_id')
   String get productId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'product_name')
   String get productName => throw _privateConstructorUsedError;
   int get quantity => throw _privateConstructorUsedError;
+  @JsonKey(name: 'price')
   double get unitPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_price')
   double get totalPrice => throw _privateConstructorUsedError;
   String? get specialInstructions => throw _privateConstructorUsedError;
 
@@ -46,11 +50,11 @@ abstract class $OrderItemCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    String productId,
-    String productName,
+    @JsonKey(name: 'product_id') String productId,
+    @JsonKey(name: 'product_name') String productName,
     int quantity,
-    double unitPrice,
-    double totalPrice,
+    @JsonKey(name: 'price') double unitPrice,
+    @JsonKey(name: 'total_price') double totalPrice,
     String? specialInstructions,
   });
 }
@@ -125,11 +129,11 @@ abstract class _$$OrderItemImplCopyWith<$Res>
   @useResult
   $Res call({
     String id,
-    String productId,
-    String productName,
+    @JsonKey(name: 'product_id') String productId,
+    @JsonKey(name: 'product_name') String productName,
     int quantity,
-    double unitPrice,
-    double totalPrice,
+    @JsonKey(name: 'price') double unitPrice,
+    @JsonKey(name: 'total_price') double totalPrice,
     String? specialInstructions,
   });
 }
@@ -196,11 +200,11 @@ class __$$OrderItemImplCopyWithImpl<$Res>
 class _$OrderItemImpl implements _OrderItem {
   const _$OrderItemImpl({
     required this.id,
-    required this.productId,
-    required this.productName,
+    @JsonKey(name: 'product_id') required this.productId,
+    @JsonKey(name: 'product_name') required this.productName,
     required this.quantity,
-    required this.unitPrice,
-    required this.totalPrice,
+    @JsonKey(name: 'price') required this.unitPrice,
+    @JsonKey(name: 'total_price') required this.totalPrice,
     this.specialInstructions,
   });
 
@@ -210,14 +214,18 @@ class _$OrderItemImpl implements _OrderItem {
   @override
   final String id;
   @override
+  @JsonKey(name: 'product_id')
   final String productId;
   @override
+  @JsonKey(name: 'product_name')
   final String productName;
   @override
   final int quantity;
   @override
+  @JsonKey(name: 'price')
   final double unitPrice;
   @override
+  @JsonKey(name: 'total_price')
   final double totalPrice;
   @override
   final String? specialInstructions;
@@ -277,11 +285,11 @@ class _$OrderItemImpl implements _OrderItem {
 abstract class _OrderItem implements OrderItem {
   const factory _OrderItem({
     required final String id,
-    required final String productId,
-    required final String productName,
+    @JsonKey(name: 'product_id') required final String productId,
+    @JsonKey(name: 'product_name') required final String productName,
     required final int quantity,
-    required final double unitPrice,
-    required final double totalPrice,
+    @JsonKey(name: 'price') required final double unitPrice,
+    @JsonKey(name: 'total_price') required final double totalPrice,
     final String? specialInstructions,
   }) = _$OrderItemImpl;
 
@@ -291,14 +299,18 @@ abstract class _OrderItem implements OrderItem {
   @override
   String get id;
   @override
+  @JsonKey(name: 'product_id')
   String get productId;
   @override
+  @JsonKey(name: 'product_name')
   String get productName;
   @override
   int get quantity;
   @override
+  @JsonKey(name: 'price')
   double get unitPrice;
   @override
+  @JsonKey(name: 'total_price')
   double get totalPrice;
   @override
   String? get specialInstructions;

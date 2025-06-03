@@ -9,21 +9,21 @@ part of 'order_item.dart';
 _$OrderItemImpl _$$OrderItemImplFromJson(Map<String, dynamic> json) =>
     _$OrderItemImpl(
       id: json['id'] as String,
-      productId: json['productId'] as String,
-      productName: json['productName'] as String,
+      productId: json['product_id'] as String,
+      productName: json['product_name'] as String,
       quantity: (json['quantity'] as num).toInt(),
-      unitPrice: (json['unitPrice'] as num).toDouble(),
-      totalPrice: (json['totalPrice'] as num).toDouble(),
+      unitPrice: (json['price'] as num).toDouble(),
+      totalPrice: (json['total_price'] as num).toDouble(),
       specialInstructions: json['specialInstructions'] as String?,
     );
 
 Map<String, dynamic> _$$OrderItemImplToJson(_$OrderItemImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'productId': instance.productId,
-      'productName': instance.productName,
+      'product_id': instance.productId,
+      'product_name': instance.productName,
       'quantity': instance.quantity,
-      'unitPrice': instance.unitPrice,
-      'totalPrice': instance.totalPrice,
+      'price': instance.unitPrice,
+      'total_price': instance.totalPrice,
       'specialInstructions': instance.specialInstructions,
     };

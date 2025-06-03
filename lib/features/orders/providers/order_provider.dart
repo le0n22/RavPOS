@@ -172,12 +172,12 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
         print('[ORDER_PROVIDER_DEBUG]     Ürün ID: ${item.productId}');
       });
       
-      final createdOrder = await _repository.insertOrder(orderWithTable, orderWithTable.items);
+      final Order? createdOrder = await _repository.insertOrder(orderWithTable, orderWithTable.items);
       
-      if (createdOrder.id.isNotEmpty) {
+      if (createdOrder != null && createdOrder.id.isNotEmpty) {
         // Append new order to existing state with isNew flag
         state = AsyncData([
-          ...state.value!.where((o) => o.id != createdOrder.id),
+          ...state.value!.where((o) => o.id != createdOrder?.id),
           createdOrder,
         ]);
         
@@ -249,7 +249,7 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
       
       print('[ORDER_PROVIDER_DEBUG] ===== Sipariş Oluşturma Tamamlandı =====');
       
-      return createdOrder.id;
+      return createdOrder?.id;
     } catch (e, stackTrace) {
       print('[ORDER_PROVIDER_DEBUG] Sipariş Oluşturma Hatası: $e');
       print('[ORDER_PROVIDER_DEBUG] Hata Detayları: $stackTrace');
@@ -261,7 +261,7 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
   Future<bool> updateOrder(Order order) async {
     try {
       final result = await _repository.updateOrder(order);
-      if (result > 0) {
+      if (result) {
         _cachedOrders = await _repository.getAllOrders();
         state = AsyncData(_cachedOrders);
         return true;
@@ -277,7 +277,7 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
   Future<bool> updateOrderStatus(String orderId, OrderStatus status) async {
     try {
       final result = await _repository.updateOrderStatus(orderId, status);
-      if (result > 0) {
+      if (result) {
         _cachedOrders = await _repository.getAllOrders();
         state = AsyncData(_cachedOrders);
         return true;
@@ -293,7 +293,7 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
   Future<bool> deleteOrder(String orderId) async {
     try {
       final result = await _repository.deleteOrder(orderId);
-      if (result > 0) {
+      if (result) {
         _cachedOrders = await _repository.getAllOrders();
         state = AsyncData(_cachedOrders);
         return true;

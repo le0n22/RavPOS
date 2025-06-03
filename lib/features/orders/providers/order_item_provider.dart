@@ -46,7 +46,7 @@ class OrderItemNotifier extends AutoDisposeFamilyAsyncNotifier<List<OrderItem>, 
   Future<bool> updateOrderItem(String orderId, OrderItem item) async {
     try {
       final result = await _repository.updateOrderItem(orderId, item);
-      if (result > 0) {
+      if (result) {
         await loadOrderItems(orderId);
         return true;
       }
@@ -60,7 +60,7 @@ class OrderItemNotifier extends AutoDisposeFamilyAsyncNotifier<List<OrderItem>, 
   Future<bool> deleteOrderItem(String orderId, String itemId) async {
     try {
       final result = await _repository.deleteOrderItem(orderId, itemId);
-      if (result > 0) {
+      if (result) {
         await loadOrderItems(orderId);
         return true;
       }

@@ -269,7 +269,8 @@ class _OrdersPageState extends ConsumerState<OrdersPage> with AutomaticKeepAlive
   List<Order> _sortOrders(List<Order> orders) {
     switch (_sortBy) {
       case 'time':
-        return orders..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        return orders..sort((a, b) =>
+            (b.createdAt ?? DateTime(0)).compareTo(a.createdAt ?? DateTime(0)));
       case 'amount':
         return orders..sort((a, b) => b.totalAmount.compareTo(a.totalAmount));
       case 'table':

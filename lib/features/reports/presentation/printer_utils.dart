@@ -95,7 +95,7 @@ String fillTemplate(String template, Order order) {
   final customerNote = order.customerNote ?? '';
   final paymentType = (order.paymentMethod?.toString().split('.').last ?? '-');
   final total = order.totalAmount.toStringAsFixed(2);
-  final finalAmount = order.finalAmount.toStringAsFixed(2);
+  final finalAmount = order.totalAmount.toStringAsFixed(2);
 
   // Döngü: {#ITEMS} ... {/ITEMS}
   final itemsLoopReg = RegExp(r'{#ITEMS}([\s\S]*?){/ITEMS}');

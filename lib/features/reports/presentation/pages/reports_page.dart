@@ -717,9 +717,11 @@ class _ReportsPageState extends ConsumerState<ReportsPage> with SingleTickerProv
                 ],
                 rows: orders.map((order) => DataRow(
                   cells: [
-                    DataCell(Text((order.updatedAt ?? order.createdAt) != null
-                      ? '${(order.updatedAt ?? order.createdAt)!.day.toString().padLeft(2, '0')}.${(order.updatedAt ?? order.createdAt)!.month.toString().padLeft(2, '0')}.${(order.updatedAt ?? order.createdAt)!.year} ${(order.updatedAt ?? order.createdAt)!.hour.toString().padLeft(2, '0')}:${(order.updatedAt ?? order.createdAt)!.minute.toString().padLeft(2, '0')}:${(order.updatedAt ?? order.createdAt)!.second.toString().padLeft(2, '0')}'
-                      : '-')),
+                    DataCell(Text(() {
+                      final date = order.updatedAt ?? order.createdAt ?? DateTime(0);
+                      if (date == DateTime(0)) return '-';
+                      return '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}:${date.second.toString().padLeft(2, '0')}';
+                    }())),
                     DataCell(Text(order.tableNumber ?? '-')),
                     DataCell(Text('₺${order.totalAmount.toStringAsFixed(2)}')),
                     DataCell(Text(order.paymentMethod?.displayName ?? '-')),
@@ -740,10 +742,10 @@ class _ReportsPageState extends ConsumerState<ReportsPage> with SingleTickerProv
       ['Zaman', 'Masa', 'Tutar', 'Ödeme', 'Garson']
     ];
     for (final order in orders) {
-      final date = (order.updatedAt ?? order.createdAt);
-      final formatted = date != null
-          ? '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}'
-          : '-';
+      final date = order.updatedAt ?? order.createdAt ?? DateTime(0);
+      final formatted = date == DateTime(0)
+          ? '-'
+          : '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
       rows.add([
         formatted,
         order.tableNumber ?? '-',
@@ -768,10 +770,10 @@ class _ReportsPageState extends ConsumerState<ReportsPage> with SingleTickerProv
     final sheet = excel['Sipariş Raporu'];
     sheet.appendRow(['Zaman', 'Masa', 'Tutar', 'Ödeme', 'Garson']);
     for (final order in orders) {
-      final date = (order.updatedAt ?? order.createdAt);
-      final formatted = date != null
-          ? '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}'
-          : '-';
+      final date = order.updatedAt ?? order.createdAt ?? DateTime(0);
+      final formatted = date == DateTime(0)
+          ? '-'
+          : '${date.day.toString().padLeft(2, '0')}.${date.month.toString().padLeft(2, '0')}.${date.year} ${date.hour.toString().padLeft(2, '0')}:${date.minute.toString().padLeft(2, '0')}';
       sheet.appendRow([
         formatted,
         order.tableNumber ?? '-',

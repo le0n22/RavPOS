@@ -126,7 +126,7 @@ class ExistingOrdersSection extends ConsumerWidget {
                 ],
               ),
               Text(
-                _formatTime(order.createdAt),
+                _formatTime(order.createdAt ?? DateTime(0)),
                 style: TextStyle(
                   color: Colors.grey.shade600,
                   fontSize: 12,
@@ -330,9 +330,9 @@ class ExistingOrdersSection extends ConsumerWidget {
     );
   }
 
-  String _formatTime(DateTime dateTime) {
+  String _formatTime(DateTime? dateTime) {
     final now = DateTime.now();
-    final difference = now.difference(dateTime);
+    final difference = now.difference(dateTime ?? DateTime(0));
 
     if (difference.inMinutes < 1) {
       return 'Az önce';
@@ -341,7 +341,7 @@ class ExistingOrdersSection extends ConsumerWidget {
     } else if (difference.inHours < 24) {
       return '${difference.inHours} saat önce';
     } else {
-      return '${dateTime.day}/${dateTime.month} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+      return '${dateTime?.day}/${dateTime?.month} ${dateTime?.hour}:${dateTime?.minute.toString().padLeft(2, '0')}';
     }
   }
 

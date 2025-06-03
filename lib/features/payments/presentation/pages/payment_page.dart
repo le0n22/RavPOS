@@ -129,7 +129,8 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
     }
     
     // Use the most recent order as the base
-    orders.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    orders.sort((a, b) =>
+        (b.createdAt ?? DateTime(0)).compareTo(a.createdAt ?? DateTime(0)));
     final baseOrder = orders.first;
     
     // Combine all items from all orders

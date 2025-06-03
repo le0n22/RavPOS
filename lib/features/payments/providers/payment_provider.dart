@@ -231,7 +231,7 @@ class PaymentNotifier extends Notifier<PaymentState> {
         
         final updateResult = await _orderRepository.updateOrder(completedOrder);
         
-        if (updateResult <= 0) {
+        if (!updateResult) {
           state = state.copyWith(
             isLoading: false,
             errorMessage: 'Sipariş güncellenemedi',

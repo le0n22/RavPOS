@@ -1,196 +1,90 @@
 import 'package:dio/dio.dart';
-import 'package:ravpos/core/network/api_service.dart';
 import 'package:ravpos/shared/models/order.dart';
 import 'package:ravpos/shared/models/order_item.dart';
+import 'package:ravpos/core/network/api_service.dart';
 import 'package:ravpos/shared/models/order_status.dart';
-import 'package:ravpos/core/storage/storage_factory.dart';
-import 'package:ravpos/core/storage/storage_interface.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:ravpos/shared/models/report_data.dart';
-import 'package:ravpos/shared/models/online_order.dart';
-import 'package:ravpos/shared/models/payment.dart';
-import 'package:ravpos/shared/models/payment_summary.dart';
 
 class OrderRepository {
-  final ApiService apiService;
+  final ApiService api;
+  OrderRepository(this.api);
 
-  OrderRepository(this.apiService);
+  Dio get dio => api.dio;
 
   Future<List<Order>> getAllOrders() async {
-    final response = await apiService.get('/orders');
-    final List<dynamic> data = response.data;
+    final resp = await dio.get('/orders');
+    final List data = resp.data;
     final orders = await Future.wait(
-      data.map((json) => Order.fromJsonAsync(json, getOrderItems)).toList(),
+      data.map((json) async {
+        final order = Order.fromJson(json as Map<String, dynamic>);
+        final items = await getOrderItems(order.id);
+        return order.copyWith(items: items);
+      }),
     );
     return orders;
   }
 
-  Future<Order?> getOrderById(String id) async {
-    final response = await apiService.get('/orders/$id');
-    return await Order.fromJsonAsync(response.data, getOrderItems);
-  }
-
-  Future<List<Order>> getOrdersByStatus(OrderStatus status) async {
-    final response = await apiService.get('/orders', queryParameters: {'status': status.toString().split('.').last});
-    final List<dynamic> data = response.data;
-    return data.map((json) => Order.fromJson(json)).toList();
-  }
-
-  Future<Order> insertOrder(Order order, List<OrderItem> items) async {
-    final payload = order.toJson();
-    payload['items'] = items.map((item) => item.toJson()).toList();
-    final response = await apiService.post('/orders', data: payload);
-    final Map<String, dynamic> data = response.data as Map<String, dynamic>;
-    final Map<String, dynamic> orderData = Map<String, dynamic>.from(
-      data['order'] as Map<String, dynamic>
-    );
-    final int orderId = orderData['id'] as int;
-    orderData['id'] = orderId;
-    orderData['items'] = data['items'] as List<dynamic>;
-    // Mark this as a new order for client-side logic
-    orderData['is_new'] = true;
-    return Order.fromJson(orderData);
-  }
-
-  Future<int> updateOrder(Order order) async {
-    final response = await apiService.put('/orders/${order.id}', data: order.toJson());
-    return response.statusCode == 200 ? 1 : 0;
-  }
-
-  Future<int> updateOrderStatus(String orderId, OrderStatus status) async {
-    final response = await apiService.patch('/orders/$orderId/status', data: {'status': status.toString().split('.').last});
-    return response.statusCode == 200 ? 1 : 0;
-  }
-
-  Future<int> deleteOrder(String id) async {
-    final response = await apiService.delete('/orders/$id');
-    return response.statusCode == 200 ? 1 : 0;
-  }
-
-  Future<List<Order>> getOrdersByTable(String tableIdentifier) async {
-    final response = await apiService.get('/orders', queryParameters: {'table': tableIdentifier});
-    final List<dynamic> data = response.data;
-    final orders = await Future.wait(
-      data.map((json) => Order.fromJsonAsync(json, getOrderItems)).toList(),
-    );
-    return orders;
-  }
-
-  Future<Order?> getLatestOrderByTable(String tableIdentifier) async {
-    final response = await apiService.get('/orders/latest', queryParameters: {'table': tableIdentifier});
-    if (response.data != null) {
-      return Order.fromJson(response.data);
-    }
-    return null;
+  Future<Order> getOrder(String id) async {
+    final resp = await dio.get('/orders/$id');
+    final order = Order.fromJson(resp.data as Map<String, dynamic>);
+    final items = await getOrderItems(order.id);
+    return order.copyWith(items: items);
   }
 
   Future<List<OrderItem>> getOrderItems(String orderId) async {
-    final response = await apiService.get('/orders/$orderId/items');
-    final List<dynamic> data = response.data;
-    return data.map((json) => OrderItem.fromJson(json)).toList();
+    final resp = await dio.get('/orders/$orderId/items');
+    final List<dynamic> data = resp.data;
+    return data.map((json) => OrderItem.fromJson(json as Map<String, dynamic>)).toList();
   }
 
-  Future<String> insertOrderItem(String orderId, OrderItem item) async {
-    print('[DEBUG] Sipariş Kalemi Ekleniyor:');
-    print('[DEBUG]   - Sipariş ID: $orderId');
-    print('[DEBUG]   - Ürün ID: ${item.productId}');
-    print('[DEBUG]   - Ürün Adı: ${item.productName}');
-    print('[DEBUG]   - Miktar: ${item.quantity}');
-    print('[DEBUG]   - Birim Fiyat: ${item.unitPrice}');
-    print('[DEBUG]   - Toplam Fiyat: ${item.totalPrice}');
+  // ---- legacy stubs, TODO: implement properly ----
+  Future<Order> getOrderById(String id) async =>
+      throw UnimplementedError('getOrderById not yet migrated');
 
-    final data = {
-      'product_id': item.productId,
-      'product_name': item.productName,
-      'quantity': item.quantity,
-      'price': item.unitPrice,
-      'total_price': item.totalPrice,
-    };
-    
-    print('[DEBUG] Gönderilen Veri: $data');
+  Future<List<Order>> getOrdersByTable(String tableId) async =>
+      throw UnimplementedError('getOrdersByTable not yet migrated');
 
-    final response = await apiService.post('/orders/$orderId/items', data: data);
-    
-    print('[DEBUG] Sunucu Yanıtı: ${response.data}');
-    
-    return response.data['id'].toString();
-  }
+  Future<List<Order>> getOrdersByStatus(OrderStatus status) async =>
+      throw UnimplementedError('getOrdersByStatus not yet migrated');
 
-  Future<int> updateOrderItem(String orderId, OrderItem item) async {
-    final response = await apiService.put('/orders/$orderId/items/${item.id}', data: item.toJson());
-    return response.statusCode == 200 ? 1 : 0;
-  }
+  Future<Order?> insertOrder(Order order, List<OrderItem> items) async =>
+      throw UnimplementedError('insertOrder not yet migrated');
 
-  Future<int> deleteOrderItem(String orderId, String itemId) async {
-    final response = await apiService.delete('/orders/$orderId/items/$itemId');
-    return response.statusCode == 200 ? 1 : 0;
-  }
+  Future<bool> updateOrder(Order order,
+      {List<OrderItem>? items}) async =>
+      throw UnimplementedError('updateOrder not yet migrated');
 
-  Future<List<Order>> getCompletedOrdersByDateRange(DateTime start, DateTime end) async {
-    final response = await apiService.get('/orders', queryParameters: {
-      'status': 'delivered',
-      'start': DateTime(start.year, start.month, start.day).toIso8601String(),
-      'end': DateTime(end.year, end.month, end.day, 23, 59, 59).toIso8601String(),
-    });
-    final List<dynamic> data = response.data;
-    return data.map((json) => Order.fromJson(json)).toList();
-  }
+  Future<bool> updateOrderStatus(String orderId, OrderStatus status) async =>
+      throw UnimplementedError('updateOrderStatus not yet migrated');
 
-  Future<ReportData> fetchSummaryReport(DateTime start, DateTime end) async {
-    final response = await apiService.get('/reports/summary', queryParameters: {
-      'start': DateTime(start.year, start.month, start.day).toIso8601String(),
-      'end': DateTime(end.year, end.month, end.day, 23, 59, 59).toIso8601String(),
-    });
-    return ReportData.fromJson(response.data);
-  }
+  Future<bool> deleteOrder(String orderId) async =>
+      throw UnimplementedError('deleteOrder not yet migrated');
 
-  Future<List<OnlineOrder>> fetchOnlineOrders() async {
-    final response = await apiService.get('/online-orders');
-    final List<dynamic> data = response.data;
-    return data.map((json) => OnlineOrder.fromJson(json)).toList();
-  }
+  // online-orders & reports
+  Future<List<Order>> fetchOnlineOrders() async =>
+      throw UnimplementedError('online orders not yet migrated');
 
-  Future<void> acceptOnlineOrder(String onlineOrderId) async {
-    await apiService.post('/online-orders/$onlineOrderId/accept');
-  }
+  Future<void> acceptOnlineOrder(String id) async =>
+      throw UnimplementedError('acceptOnlineOrder');
 
-  Future<void> rejectOnlineOrder(String onlineOrderId, String reason) async {
-    await apiService.post('/online-orders/$onlineOrderId/reject', data: {'reason': reason});
-  }
+  Future<void> rejectOnlineOrder(String id, String reason) async =>
+      throw UnimplementedError('rejectOnlineOrder');
 
-  Future<void> createPayment({
-    required String orderId,
-    required double amount,
-    required String method,
-    double discount = 0,
-    double received = 0,
-    double change = 0,
-  }) async {
-    await apiService.post('/payments', data: {
-      'orderId': orderId,
-      'amount': amount,
-      'method': method,
-      'discount': discount,
-      'received': received,
-      'change': change,
-    });
-  }
+  Future<List<Order>> getCompletedOrdersByDateRange(
+          DateTime start, DateTime end) async =>
+      throw UnimplementedError('getCompletedOrdersByDateRange');
 
-  Future<List<Payment>> fetchPayments(String orderId) async {
-    final response = await apiService.get('/payments', queryParameters: {'orderId': orderId});
-    final List<dynamic> data = response.data;
-    return data.map((json) => Payment.fromJson(json)).toList();
-  }
+  Future<Map<String, dynamic>> fetchSummaryReport(
+          DateTime start, DateTime end) async =>
+      throw UnimplementedError('fetchSummaryReport');
 
-  Future<void> refundPayment(String paymentId) async {
-    await apiService.post('/payments/$paymentId/refund');
-  }
+  Future<String> insertOrderItem(String orderId, OrderItem item) async =>
+      throw UnimplementedError('insertOrderItem');
 
-  Future<PaymentSummary> fetchPaymentSummary(DateTime from, DateTime to) async {
-    final response = await apiService.get('/payments/summary', queryParameters: {
-      'dateFrom': from.toIso8601String(),
-      'dateTo': to.toIso8601String(),
-    });
-    return PaymentSummary.fromJson(response.data);
-  }
+  Future<bool> updateOrderItem(
+          String orderId, OrderItem item) async =>
+      throw UnimplementedError('updateOrderItem');
+
+  Future<bool> deleteOrderItem(
+          String orderId, String itemId) async =>
+      throw UnimplementedError('deleteOrderItem');
 } 

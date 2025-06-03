@@ -21,7 +21,7 @@ class OnlineOrderNotifier extends AsyncNotifier<List<OnlineOrder>> {
     state = const AsyncLoading();
     try {
       final orders = await _repository.fetchOnlineOrders();
-      state = AsyncData(orders);
+      state = AsyncData(orders.cast<OnlineOrder>());
     } catch (e, stack) {
       state = AsyncError(e, stack);
     }

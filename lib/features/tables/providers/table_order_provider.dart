@@ -207,7 +207,7 @@ class TableOrderNotifier extends StateNotifier<TableOrderState> {
         (order) => order.status == OrderStatus.pending,
         orElse: () {
           print('[SAVE_ORDER_TRACE] No existing pending order found (orElse triggered).');
-          return Order.empty; // Placeholder empty order
+          return Order.empty; // now defined in model
         },
       );
       print('[SAVE_ORDER_TRACE] Checked for existing pending order. Found Order ID: ${existingPendingOrder.id.isEmpty ? "None (Order.empty)" : existingPendingOrder.id}, Status: ${existingPendingOrder.status}');

@@ -453,8 +453,9 @@ class PrinterService {
   }
 
   // Helper method to format date
-  String _formatDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
+  String _formatDate(DateTime? date) {
+    final d = date ?? DateTime(0);
+    return '${d.day}/${d.month}/${d.year} ${d.hour}:${d.minute.toString().padLeft(2, '0')}';
   }
 }
 

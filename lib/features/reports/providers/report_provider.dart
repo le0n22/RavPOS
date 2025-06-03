@@ -55,10 +55,11 @@ class ReportNotifier extends AsyncNotifier<ReportData> {
             (salesByPaymentMethod[paymentMethodName] ?? 0.0) + orderTotal;
         
         // Track daily sales
+        final created = order.createdAt ?? DateTime(0);
         final orderDate = DateTime(
-          order.createdAt.year,
-          order.createdAt.month,
-          order.createdAt.day,
+          created.year,
+          created.month,
+          created.day,
         );
         dailySalesData[orderDate] = (dailySalesData[orderDate] ?? 0.0) + orderTotal;
         

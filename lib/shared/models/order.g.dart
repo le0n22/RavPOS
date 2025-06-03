@@ -8,41 +8,62 @@ part of 'order.dart';
 
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
   id: json['id'] as String,
-  tableId: json['tableId'] as String?,
-  userId: json['userId'] as String?,
   orderNumber: json['orderNumber'] as String,
+  totalAmount: (json['totalAmount'] as num).toDouble(),
+  status: $enumDecode(_$OrderStatusEnumMap, json['status']),
+  tableId: json['tableId'] as String?,
   tableNumber: json['tableNumber'] as String?,
   items: (json['items'] as List<dynamic>)
       .map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
       .toList(),
-  status: _orderStatusFromJson(json['status'] as String),
-  totalAmount: (json['totalAmount'] as num).toDouble(),
-  createdAt: DateTime.parse(json['createdAt'] as String),
+  userId: json['userId'] as String?,
+  createdAt: json['createdAt'] == null
+      ? null
+      : DateTime.parse(json['createdAt'] as String),
   updatedAt: json['updatedAt'] == null
       ? null
       : DateTime.parse(json['updatedAt'] as String),
-  customerNote: json['customerNote'] as String?,
   discountAmount: (json['discountAmount'] as num?)?.toDouble(),
-  paymentMethod: _paymentMethodFromJson(json['paymentMethod'] as String?),
+  customerNote: json['customerNote'] as String?,
+  paymentMethod: $enumDecodeNullable(
+    _$PaymentMethodEnumMap,
+    json['paymentMethod'],
+  ),
   metadata: json['metadata'] as Map<String, dynamic>?,
-  currentOrderId: json['current_order_id'] as String?,
+  currentOrderId: json['currentOrderId'] as String?,
+  isNew: json['isNew'] as bool? ?? false,
 );
 
 Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'tableId': instance.tableId,
-      'userId': instance.userId,
       'orderNumber': instance.orderNumber,
+      'totalAmount': instance.totalAmount,
+      'status': _$OrderStatusEnumMap[instance.status]!,
+      'tableId': instance.tableId,
       'tableNumber': instance.tableNumber,
       'items': instance.items,
-      'status': _orderStatusToJson(instance.status),
-      'totalAmount': instance.totalAmount,
-      'createdAt': instance.createdAt.toIso8601String(),
+      'userId': instance.userId,
+      'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
-      'customerNote': instance.customerNote,
       'discountAmount': instance.discountAmount,
-      'paymentMethod': _paymentMethodToJson(instance.paymentMethod),
+      'customerNote': instance.customerNote,
+      'paymentMethod': _$PaymentMethodEnumMap[instance.paymentMethod],
       'metadata': instance.metadata,
-      'current_order_id': instance.currentOrderId,
+      'currentOrderId': instance.currentOrderId,
+      'isNew': instance.isNew,
     };
+
+const _$OrderStatusEnumMap = {
+  OrderStatus.pending: 'pending',
+  OrderStatus.preparing: 'preparing',
+  OrderStatus.ready: 'ready',
+  OrderStatus.paymentPending: 'paymentPending',
+  OrderStatus.delivered: 'delivered',
+  OrderStatus.cancelled: 'cancelled',
+};
+
+const _$PaymentMethodEnumMap = {
+  PaymentMethod.cash: 'cash',
+  PaymentMethod.card: 'card',
+};

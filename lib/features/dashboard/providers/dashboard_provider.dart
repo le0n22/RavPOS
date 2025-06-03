@@ -30,7 +30,8 @@ class DashboardNotifier extends AsyncNotifier<DashboardData> {
       final startOfDay = DateTime(now.year, now.month, now.day);
       final endOfDay = DateTime(now.year, now.month, now.day, 23, 59, 59, 999);
       final todaysOrders = allOrders.where((order) {
-        return order.createdAt.isAfter(startOfDay) && order.createdAt.isBefore(endOfDay);
+        final created = order.createdAt ?? DateTime(0);
+        return created.isAfter(startOfDay) && created.isBefore(endOfDay);
       }).toList();
       final products = await _productRepository.getAllProducts();
       final categories = await _categoryRepository.getCategories();

@@ -25,7 +25,7 @@ class OrderCard extends ConsumerWidget {
         ? ref.watch(tableByIdProvider(order.tableId!))
         : const AsyncValue.data(null);
     // Calculate time elapsed since creation
-    final Duration timeElapsed = DateTime.now().difference(order.createdAt);
+    final Duration timeElapsed = DateTime.now().difference(order.createdAt ?? DateTime(0));
     final String timeElapsedText = _formatTimeElapsed(timeElapsed);
     
     // Determine urgency color based on elapsed time

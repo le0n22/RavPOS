@@ -354,16 +354,16 @@ class OrderDetailModal extends ConsumerWidget {
   }
 
   // Format datetime in a readable format
-  String _formatDateTime(DateTime dateTime) {
+  String _formatDateTime(DateTime? dateTime) {
     final today = DateTime.now();
-    final difference = today.difference(dateTime);
+    final difference = today.difference(dateTime ?? DateTime(0));
     
     if (difference.inDays == 0) {
-      return 'Bugün ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+      return 'Bugün ${dateTime?.hour}:${dateTime?.minute.toString().padLeft(2, '0')}';
     } else if (difference.inDays == 1) {
-      return 'Dün ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+      return 'Dün ${dateTime?.hour}:${dateTime?.minute.toString().padLeft(2, '0')}';
     } else {
-      return '${dateTime.day}/${dateTime.month}/${dateTime.year} ${dateTime.hour}:${dateTime.minute.toString().padLeft(2, '0')}';
+      return '${dateTime?.day}/${dateTime?.month}/${dateTime?.year} ${dateTime?.hour}:${dateTime?.minute.toString().padLeft(2, '0')}';
     }
   }
 

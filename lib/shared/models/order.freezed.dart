@@ -22,23 +22,21 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Order {
   String get id => throw _privateConstructorUsedError;
-  String? get tableId => throw _privateConstructorUsedError;
-  String? get userId => throw _privateConstructorUsedError;
   String get orderNumber => throw _privateConstructorUsedError;
+  double get totalAmount => throw _privateConstructorUsedError;
+  OrderStatus get status => throw _privateConstructorUsedError;
+  String? get tableId => throw _privateConstructorUsedError;
   String? get tableNumber => throw _privateConstructorUsedError;
   List<OrderItem> get items => throw _privateConstructorUsedError;
-  @JsonKey(fromJson: _orderStatusFromJson, toJson: _orderStatusToJson)
-  OrderStatus get status => throw _privateConstructorUsedError;
-  double get totalAmount => throw _privateConstructorUsedError;
-  DateTime get createdAt => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
-  String? get customerNote => throw _privateConstructorUsedError;
   double? get discountAmount => throw _privateConstructorUsedError;
-  @JsonKey(fromJson: _paymentMethodFromJson, toJson: _paymentMethodToJson)
+  String? get customerNote => throw _privateConstructorUsedError;
   PaymentMethod? get paymentMethod => throw _privateConstructorUsedError;
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
-  @JsonKey(name: 'current_order_id')
   String? get currentOrderId => throw _privateConstructorUsedError;
+  bool get isNew => throw _privateConstructorUsedError;
 
   /// Serializes this Order to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,22 +54,21 @@ abstract class $OrderCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    String? tableId,
-    String? userId,
     String orderNumber,
+    double totalAmount,
+    OrderStatus status,
+    String? tableId,
     String? tableNumber,
     List<OrderItem> items,
-    @JsonKey(fromJson: _orderStatusFromJson, toJson: _orderStatusToJson)
-    OrderStatus status,
-    double totalAmount,
-    DateTime createdAt,
+    String? userId,
+    DateTime? createdAt,
     DateTime? updatedAt,
-    String? customerNote,
     double? discountAmount,
-    @JsonKey(fromJson: _paymentMethodFromJson, toJson: _paymentMethodToJson)
+    String? customerNote,
     PaymentMethod? paymentMethod,
     Map<String, dynamic>? metadata,
-    @JsonKey(name: 'current_order_id') String? currentOrderId,
+    String? currentOrderId,
+    bool isNew,
   });
 }
 
@@ -91,20 +88,21 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
   @override
   $Res call({
     Object? id = null,
-    Object? tableId = freezed,
-    Object? userId = freezed,
     Object? orderNumber = null,
+    Object? totalAmount = null,
+    Object? status = null,
+    Object? tableId = freezed,
     Object? tableNumber = freezed,
     Object? items = null,
-    Object? status = null,
-    Object? totalAmount = null,
-    Object? createdAt = null,
+    Object? userId = freezed,
+    Object? createdAt = freezed,
     Object? updatedAt = freezed,
-    Object? customerNote = freezed,
     Object? discountAmount = freezed,
+    Object? customerNote = freezed,
     Object? paymentMethod = freezed,
     Object? metadata = freezed,
     Object? currentOrderId = freezed,
+    Object? isNew = null,
   }) {
     return _then(
       _value.copyWith(
@@ -112,18 +110,22 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
                 ? _value.id
                 : id // ignore: cast_nullable_to_non_nullable
                       as String,
-            tableId: freezed == tableId
-                ? _value.tableId
-                : tableId // ignore: cast_nullable_to_non_nullable
-                      as String?,
-            userId: freezed == userId
-                ? _value.userId
-                : userId // ignore: cast_nullable_to_non_nullable
-                      as String?,
             orderNumber: null == orderNumber
                 ? _value.orderNumber
                 : orderNumber // ignore: cast_nullable_to_non_nullable
                       as String,
+            totalAmount: null == totalAmount
+                ? _value.totalAmount
+                : totalAmount // ignore: cast_nullable_to_non_nullable
+                      as double,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as OrderStatus,
+            tableId: freezed == tableId
+                ? _value.tableId
+                : tableId // ignore: cast_nullable_to_non_nullable
+                      as String?,
             tableNumber: freezed == tableNumber
                 ? _value.tableNumber
                 : tableNumber // ignore: cast_nullable_to_non_nullable
@@ -132,30 +134,26 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
                 ? _value.items
                 : items // ignore: cast_nullable_to_non_nullable
                       as List<OrderItem>,
-            status: null == status
-                ? _value.status
-                : status // ignore: cast_nullable_to_non_nullable
-                      as OrderStatus,
-            totalAmount: null == totalAmount
-                ? _value.totalAmount
-                : totalAmount // ignore: cast_nullable_to_non_nullable
-                      as double,
-            createdAt: null == createdAt
+            userId: freezed == userId
+                ? _value.userId
+                : userId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
-                      as DateTime,
+                      as DateTime?,
             updatedAt: freezed == updatedAt
                 ? _value.updatedAt
                 : updatedAt // ignore: cast_nullable_to_non_nullable
                       as DateTime?,
-            customerNote: freezed == customerNote
-                ? _value.customerNote
-                : customerNote // ignore: cast_nullable_to_non_nullable
-                      as String?,
             discountAmount: freezed == discountAmount
                 ? _value.discountAmount
                 : discountAmount // ignore: cast_nullable_to_non_nullable
                       as double?,
+            customerNote: freezed == customerNote
+                ? _value.customerNote
+                : customerNote // ignore: cast_nullable_to_non_nullable
+                      as String?,
             paymentMethod: freezed == paymentMethod
                 ? _value.paymentMethod
                 : paymentMethod // ignore: cast_nullable_to_non_nullable
@@ -168,6 +166,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
                 ? _value.currentOrderId
                 : currentOrderId // ignore: cast_nullable_to_non_nullable
                       as String?,
+            isNew: null == isNew
+                ? _value.isNew
+                : isNew // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -184,22 +186,21 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    String? tableId,
-    String? userId,
     String orderNumber,
+    double totalAmount,
+    OrderStatus status,
+    String? tableId,
     String? tableNumber,
     List<OrderItem> items,
-    @JsonKey(fromJson: _orderStatusFromJson, toJson: _orderStatusToJson)
-    OrderStatus status,
-    double totalAmount,
-    DateTime createdAt,
+    String? userId,
+    DateTime? createdAt,
     DateTime? updatedAt,
-    String? customerNote,
     double? discountAmount,
-    @JsonKey(fromJson: _paymentMethodFromJson, toJson: _paymentMethodToJson)
+    String? customerNote,
     PaymentMethod? paymentMethod,
     Map<String, dynamic>? metadata,
-    @JsonKey(name: 'current_order_id') String? currentOrderId,
+    String? currentOrderId,
+    bool isNew,
   });
 }
 
@@ -218,20 +219,21 @@ class __$$OrderImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? tableId = freezed,
-    Object? userId = freezed,
     Object? orderNumber = null,
+    Object? totalAmount = null,
+    Object? status = null,
+    Object? tableId = freezed,
     Object? tableNumber = freezed,
     Object? items = null,
-    Object? status = null,
-    Object? totalAmount = null,
-    Object? createdAt = null,
+    Object? userId = freezed,
+    Object? createdAt = freezed,
     Object? updatedAt = freezed,
-    Object? customerNote = freezed,
     Object? discountAmount = freezed,
+    Object? customerNote = freezed,
     Object? paymentMethod = freezed,
     Object? metadata = freezed,
     Object? currentOrderId = freezed,
+    Object? isNew = null,
   }) {
     return _then(
       _$OrderImpl(
@@ -239,18 +241,22 @@ class __$$OrderImplCopyWithImpl<$Res>
             ? _value.id
             : id // ignore: cast_nullable_to_non_nullable
                   as String,
-        tableId: freezed == tableId
-            ? _value.tableId
-            : tableId // ignore: cast_nullable_to_non_nullable
-                  as String?,
-        userId: freezed == userId
-            ? _value.userId
-            : userId // ignore: cast_nullable_to_non_nullable
-                  as String?,
         orderNumber: null == orderNumber
             ? _value.orderNumber
             : orderNumber // ignore: cast_nullable_to_non_nullable
                   as String,
+        totalAmount: null == totalAmount
+            ? _value.totalAmount
+            : totalAmount // ignore: cast_nullable_to_non_nullable
+                  as double,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as OrderStatus,
+        tableId: freezed == tableId
+            ? _value.tableId
+            : tableId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         tableNumber: freezed == tableNumber
             ? _value.tableNumber
             : tableNumber // ignore: cast_nullable_to_non_nullable
@@ -259,30 +265,26 @@ class __$$OrderImplCopyWithImpl<$Res>
             ? _value._items
             : items // ignore: cast_nullable_to_non_nullable
                   as List<OrderItem>,
-        status: null == status
-            ? _value.status
-            : status // ignore: cast_nullable_to_non_nullable
-                  as OrderStatus,
-        totalAmount: null == totalAmount
-            ? _value.totalAmount
-            : totalAmount // ignore: cast_nullable_to_non_nullable
-                  as double,
-        createdAt: null == createdAt
+        userId: freezed == userId
+            ? _value.userId
+            : userId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
-                  as DateTime,
+                  as DateTime?,
         updatedAt: freezed == updatedAt
             ? _value.updatedAt
             : updatedAt // ignore: cast_nullable_to_non_nullable
                   as DateTime?,
-        customerNote: freezed == customerNote
-            ? _value.customerNote
-            : customerNote // ignore: cast_nullable_to_non_nullable
-                  as String?,
         discountAmount: freezed == discountAmount
             ? _value.discountAmount
             : discountAmount // ignore: cast_nullable_to_non_nullable
                   as double?,
+        customerNote: freezed == customerNote
+            ? _value.customerNote
+            : customerNote // ignore: cast_nullable_to_non_nullable
+                  as String?,
         paymentMethod: freezed == paymentMethod
             ? _value.paymentMethod
             : paymentMethod // ignore: cast_nullable_to_non_nullable
@@ -295,6 +297,10 @@ class __$$OrderImplCopyWithImpl<$Res>
             ? _value.currentOrderId
             : currentOrderId // ignore: cast_nullable_to_non_nullable
                   as String?,
+        isNew: null == isNew
+            ? _value.isNew
+            : isNew // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -305,22 +311,21 @@ class __$$OrderImplCopyWithImpl<$Res>
 class _$OrderImpl extends _Order {
   const _$OrderImpl({
     required this.id,
-    this.tableId,
-    this.userId,
     required this.orderNumber,
+    required this.totalAmount,
+    required this.status,
+    this.tableId,
     this.tableNumber,
     required final List<OrderItem> items,
-    @JsonKey(fromJson: _orderStatusFromJson, toJson: _orderStatusToJson)
-    required this.status,
-    required this.totalAmount,
-    required this.createdAt,
+    this.userId,
+    this.createdAt,
     this.updatedAt,
-    this.customerNote,
     this.discountAmount,
-    @JsonKey(fromJson: _paymentMethodFromJson, toJson: _paymentMethodToJson)
+    this.customerNote,
     this.paymentMethod,
     final Map<String, dynamic>? metadata,
-    @JsonKey(name: 'current_order_id') this.currentOrderId,
+    this.currentOrderId,
+    this.isNew = false,
   }) : _items = items,
        _metadata = metadata,
        super._();
@@ -331,11 +336,13 @@ class _$OrderImpl extends _Order {
   @override
   final String id;
   @override
-  final String? tableId;
-  @override
-  final String? userId;
-  @override
   final String orderNumber;
+  @override
+  final double totalAmount;
+  @override
+  final OrderStatus status;
+  @override
+  final String? tableId;
   @override
   final String? tableNumber;
   final List<OrderItem> _items;
@@ -347,20 +354,16 @@ class _$OrderImpl extends _Order {
   }
 
   @override
-  @JsonKey(fromJson: _orderStatusFromJson, toJson: _orderStatusToJson)
-  final OrderStatus status;
+  final String? userId;
   @override
-  final double totalAmount;
-  @override
-  final DateTime createdAt;
+  final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
   @override
-  final String? customerNote;
-  @override
   final double? discountAmount;
   @override
-  @JsonKey(fromJson: _paymentMethodFromJson, toJson: _paymentMethodToJson)
+  final String? customerNote;
+  @override
   final PaymentMethod? paymentMethod;
   final Map<String, dynamic>? _metadata;
   @override
@@ -373,12 +376,14 @@ class _$OrderImpl extends _Order {
   }
 
   @override
-  @JsonKey(name: 'current_order_id')
   final String? currentOrderId;
+  @override
+  @JsonKey()
+  final bool isNew;
 
   @override
   String toString() {
-    return 'Order(id: $id, tableId: $tableId, userId: $userId, orderNumber: $orderNumber, tableNumber: $tableNumber, items: $items, status: $status, totalAmount: $totalAmount, createdAt: $createdAt, updatedAt: $updatedAt, customerNote: $customerNote, discountAmount: $discountAmount, paymentMethod: $paymentMethod, metadata: $metadata, currentOrderId: $currentOrderId)';
+    return 'Order(id: $id, orderNumber: $orderNumber, totalAmount: $totalAmount, status: $status, tableId: $tableId, tableNumber: $tableNumber, items: $items, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt, discountAmount: $discountAmount, customerNote: $customerNote, paymentMethod: $paymentMethod, metadata: $metadata, currentOrderId: $currentOrderId, isNew: $isNew)';
   }
 
   @override
@@ -387,29 +392,30 @@ class _$OrderImpl extends _Order {
         (other.runtimeType == runtimeType &&
             other is _$OrderImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.tableId, tableId) || other.tableId == tableId) &&
-            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.orderNumber, orderNumber) ||
                 other.orderNumber == orderNumber) &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.tableId, tableId) || other.tableId == tableId) &&
             (identical(other.tableNumber, tableNumber) ||
                 other.tableNumber == tableNumber) &&
             const DeepCollectionEquality().equals(other._items, _items) &&
-            (identical(other.status, status) || other.status == status) &&
-            (identical(other.totalAmount, totalAmount) ||
-                other.totalAmount == totalAmount) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
-            (identical(other.customerNote, customerNote) ||
-                other.customerNote == customerNote) &&
             (identical(other.discountAmount, discountAmount) ||
                 other.discountAmount == discountAmount) &&
+            (identical(other.customerNote, customerNote) ||
+                other.customerNote == customerNote) &&
             (identical(other.paymentMethod, paymentMethod) ||
                 other.paymentMethod == paymentMethod) &&
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.currentOrderId, currentOrderId) ||
-                other.currentOrderId == currentOrderId));
+                other.currentOrderId == currentOrderId) &&
+            (identical(other.isNew, isNew) || other.isNew == isNew));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -417,20 +423,21 @@ class _$OrderImpl extends _Order {
   int get hashCode => Object.hash(
     runtimeType,
     id,
-    tableId,
-    userId,
     orderNumber,
+    totalAmount,
+    status,
+    tableId,
     tableNumber,
     const DeepCollectionEquality().hash(_items),
-    status,
-    totalAmount,
+    userId,
     createdAt,
     updatedAt,
-    customerNote,
     discountAmount,
+    customerNote,
     paymentMethod,
     const DeepCollectionEquality().hash(_metadata),
     currentOrderId,
+    isNew,
   );
 
   /// Create a copy of Order
@@ -450,22 +457,21 @@ class _$OrderImpl extends _Order {
 abstract class _Order extends Order {
   const factory _Order({
     required final String id,
-    final String? tableId,
-    final String? userId,
     required final String orderNumber,
+    required final double totalAmount,
+    required final OrderStatus status,
+    final String? tableId,
     final String? tableNumber,
     required final List<OrderItem> items,
-    @JsonKey(fromJson: _orderStatusFromJson, toJson: _orderStatusToJson)
-    required final OrderStatus status,
-    required final double totalAmount,
-    required final DateTime createdAt,
+    final String? userId,
+    final DateTime? createdAt,
     final DateTime? updatedAt,
-    final String? customerNote,
     final double? discountAmount,
-    @JsonKey(fromJson: _paymentMethodFromJson, toJson: _paymentMethodToJson)
+    final String? customerNote,
     final PaymentMethod? paymentMethod,
     final Map<String, dynamic>? metadata,
-    @JsonKey(name: 'current_order_id') final String? currentOrderId,
+    final String? currentOrderId,
+    final bool isNew,
   }) = _$OrderImpl;
   const _Order._() : super._();
 
@@ -474,36 +480,35 @@ abstract class _Order extends Order {
   @override
   String get id;
   @override
-  String? get tableId;
-  @override
-  String? get userId;
-  @override
   String get orderNumber;
+  @override
+  double get totalAmount;
+  @override
+  OrderStatus get status;
+  @override
+  String? get tableId;
   @override
   String? get tableNumber;
   @override
   List<OrderItem> get items;
   @override
-  @JsonKey(fromJson: _orderStatusFromJson, toJson: _orderStatusToJson)
-  OrderStatus get status;
+  String? get userId;
   @override
-  double get totalAmount;
-  @override
-  DateTime get createdAt;
+  DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
   @override
-  String? get customerNote;
-  @override
   double? get discountAmount;
   @override
-  @JsonKey(fromJson: _paymentMethodFromJson, toJson: _paymentMethodToJson)
+  String? get customerNote;
+  @override
   PaymentMethod? get paymentMethod;
   @override
   Map<String, dynamic>? get metadata;
   @override
-  @JsonKey(name: 'current_order_id')
   String? get currentOrderId;
+  @override
+  bool get isNew;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.
