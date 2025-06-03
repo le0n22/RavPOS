@@ -16,7 +16,8 @@ function authenticateToken(req, res, next) {
   });
 }
 
-router.put('/:id', tablesController.updateTable);
+// Update table (protected)
+router.put('/:id', authenticateToken, tablesController.updateTable);
 // Tüm masaları getir (korumalı)
 router.get('/', authenticateToken, tablesController.getTables);
 
@@ -34,21 +35,6 @@ router.post('/', authenticateToken, async (req, res) => {
   }
 });
 
-// Masa güncelle (korumalı)
-router.put('/:id', authenticateToken, async (req, res) => {
-  const { name, status, capacity } = req.body;
-  const { id } = req.params;
-  try {
-    const [updated] = await knex('tables')
-      .where({ id })
-      .update({ name, status, capacity })
-      .returning('*');
-    const updatedWithStringId = { ...updated, id: String(updated.id) };
-    res.json(updatedWithStringId);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
 
 // Masa sil (korumalı)
 router.delete('/:id', authenticateToken, async (req, res) => {
