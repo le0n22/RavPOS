@@ -53,16 +53,16 @@ class OrderRepository {
       final payload = {
         'table_id' : draft.tableId,
         'user_id'  : draft.userId,
-        'order_number': draft.orderNumber,
+        'orderNumber': draft.orderNumber,
         'status'   : draft.status.name,
         'total'    : draft.totalAmount,
         'items'    : items
             .map((i) => {
-                  'product_id'  : i.productId,
-                  'product_name': i.productName,
-                  'quantity'    : i.quantity,
-                  'price'       : i.unitPrice,
-                  'total_price' : i.totalPrice,
+                  'productId'  : i.productId,
+                  'productName': i.productName,
+                  'quantity'   : i.quantity,
+                  'price'      : i.unitPrice,
+                  'totalPrice' : i.totalPrice,
                 })
             .toList(),
       };
