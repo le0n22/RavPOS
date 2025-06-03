@@ -34,6 +34,7 @@ class Order with _$Order {
     PaymentMethod? paymentMethod,
     Map<String, dynamic>? metadata,
     @JsonKey(name: 'current_order_id') String? currentOrderId,
+    @Default(false) bool isNew,
   }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
@@ -44,7 +45,7 @@ class Order with _$Order {
     tableNumber: (json['tableNumber'] ?? json['table_number'])?.toString(),
     items: (json['items'] as List<dynamic>?)?.map((e) => OrderItem.fromJson(e as Map<String, dynamic>)).toList() ?? [],
     status: _orderStatusFromJson((json['status'] ?? 'pending').toString()),
-    totalAmount: double.tryParse((json['total'] ?? json['totalAmount'] ?? '0').toString()) ?? 0.0,
+    totalAmount: num.tryParse(json['total'].toString())?.toDouble() ?? 0,
     createdAt: DateTime.parse(json['created_at'] ?? json['createdAt'] ?? DateTime.now().toIso8601String()),
     updatedAt: json['updated_at'] != null ? DateTime.parse(json['updated_at']) : (json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null),
     customerNote: json['customerNote'] as String?,
@@ -52,6 +53,7 @@ class Order with _$Order {
     paymentMethod: _paymentMethodFromJson(json['paymentMethod'] as String?),
     metadata: json['metadata'] as Map<String, dynamic>?,
     currentOrderId: (json['currentOrderId'] ?? json['current_order_id'])?.toString(),
+    isNew: json['is_new'] as bool? ?? false,
   );
   
   /// Get final amount after discount
@@ -86,6 +88,7 @@ class Order with _$Order {
       'metadata': metadata,
       'currentOrderId': currentOrderId,
       'current_order_id': currentOrderId,
+      'is_new': isNew,
     };
     return data;
   }

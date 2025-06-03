@@ -36,13 +36,20 @@ class OrderRepository {
     return data.map((json) => Order.fromJson(json)).toList();
   }
 
-  Future<String> insertOrder(Order order, List<OrderItem> items) async {
-    final response = await apiService.post('/orders', data: order.toJson());
-    final orderId = response.data['id'].toString();
-    for (final item in items) {
-      await insertOrderItem(orderId, item);
-    }
-    return orderId;
+  Future<Order> insertOrder(Order order, List<OrderItem> items) async {
+    final payload = order.toJson();
+    payload['items'] = items.map((item) => item.toJson()).toList();
+    final response = await apiService.post('/orders', data: payload);
+    final Map<String, dynamic> data = response.data as Map<String, dynamic>;
+    final Map<String, dynamic> orderData = Map<String, dynamic>.from(
+      data['order'] as Map<String, dynamic>
+    );
+    final int orderId = orderData['id'] as int;
+    orderData['id'] = orderId;
+    orderData['items'] = data['items'] as List<dynamic>;
+    // Mark this as a new order for client-side logic
+    orderData['is_new'] = true;
+    return Order.fromJson(orderData);
   }
 
   Future<int> updateOrder(Order order) async {

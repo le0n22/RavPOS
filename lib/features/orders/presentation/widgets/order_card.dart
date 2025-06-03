@@ -4,6 +4,7 @@ import '../../../../shared/models/order.dart';
 import '../../../../shared/models/order_status.dart';
 import '../../providers/order_provider.dart';
 import 'package:ravpos/features/tables/providers/table_provider.dart';
+import 'package:intl/intl.dart';
 
 class OrderCard extends ConsumerWidget {
   final Order order;
@@ -145,7 +146,8 @@ class OrderCard extends ConsumerWidget {
                 children: [
                   // Total amount
                   Text(
-                    '₺${order.totalAmount.toStringAsFixed(2)}',
+                    NumberFormat.currency(locale: 'tr_TR', symbol: '₺')
+                        .format(order.totalAmount),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.primary,

@@ -217,7 +217,10 @@ class TableOrderNotifier extends StateNotifier<TableOrderState> {
       if (existingPendingOrder.id.isNotEmpty && existingPendingOrder.id != Order.empty.id) { // Double check it's not the empty placeholder
         // --- UPDATE EXISTING ORDER ---
         print('[SAVE_ORDER_TRACE] Attempting to UPDATE existing order ID: ${existingPendingOrder.id} with ${draftItems.length} new items.');
-        success = await orderNotifier.addItemsToOrder(existingPendingOrder.id, draftItems);
+        success = await orderNotifier.updateOrderItems(
+          existingPendingOrder.id,
+          draftItems,
+        );
         print('[SAVE_ORDER_TRACE] Update existing order call result: $success');
 
       } else {

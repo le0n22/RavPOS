@@ -172,20 +172,21 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
         print('[ORDER_PROVIDER_DEBUG]     Ürün ID: ${item.productId}');
       });
       
-      final id = await _repository.insertOrder(orderWithTable, orderWithTable.items);
+      final createdOrder = await _repository.insertOrder(orderWithTable, orderWithTable.items);
       
-      print('[ORDER_PROVIDER_DEBUG] Oluşturulan Sipariş ID: $id');
-      
-      if (id.isNotEmpty) {
-        _cachedOrders = await _repository.getAllOrders();
-        state = AsyncData(_cachedOrders);
+      if (createdOrder.id.isNotEmpty) {
+        // Append new order to existing state with isNew flag
+        state = AsyncData([
+          ...state.value!.where((o) => o.id != createdOrder.id),
+          createdOrder,
+        ]);
         
         if (tableId.isNotEmpty) {
           try {
             await ref.read(tableProvider.notifier).updateTableStatus(
               tableId, 
               TableStatus.occupied,
-              currentOrderId: id
+              currentOrderId: createdOrder.id
             );
             
             print('[ORDER_PROVIDER_DEBUG] Masa Durumu Güncellendi');
@@ -248,7 +249,7 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
       
       print('[ORDER_PROVIDER_DEBUG] ===== Sipariş Oluşturma Tamamlandı =====');
       
-      return id;
+      return createdOrder.id;
     } catch (e, stackTrace) {
       print('[ORDER_PROVIDER_DEBUG] Sipariş Oluşturma Hatası: $e');
       print('[ORDER_PROVIDER_DEBUG] Hata Detayları: $stackTrace');
@@ -360,19 +361,36 @@ class OrderNotifier extends AsyncNotifier<List<Order>> {
     }
   }
 
-  /// Add new items to an existing order and refresh cache
-  Future<bool> addItemsToOrder(String orderId, List<OrderItem> items) async {
+  /// Update existing order by sending full items list
+  Future<bool> updateOrderItems(String orderId, List<OrderItem> items) async {
     try {
-      for (final item in items) {
-        await _repository.insertOrderItem(orderId, item);
+      final response = await ref.read(apiServiceProvider).put(
+        '/orders/$orderId',
+        data: {'items': items.map((e) => e.toJson()).toList()},
+      );
+      if (response.statusCode == 200) {
+        _cachedOrders = await _repository.getAllOrders();
+        state = AsyncData(_cachedOrders);
+        return true;
       }
-      _cachedOrders = await _repository.getAllOrders();
-      state = AsyncData(_cachedOrders);
-      return true;
+      return false;
     } catch (e) {
-      print('[ORDER_PROVIDER_DEBUG] Error adding items to order: $e');
+      print('[ORDER_PROVIDER_DEBUG] Error updating order items: $e');
       return false;
     }
+  }
+
+  /// Mark a new order as seen (remove isNew flag)
+  void markAsSeen(String orderId) {
+    state = AsyncData([
+      for (final o in state.value!)
+        o.id == orderId
+          ? Order.fromJson({
+              ...o.toJson(),
+              'is_new': false,
+            })
+          : o
+    ]);
   }
 }
 

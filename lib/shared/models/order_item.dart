@@ -21,7 +21,7 @@ class OrderItem with _$OrderItem {
     productName: (json['productName'] ?? json['product_name'] ?? '').toString(),
     quantity: (json['quantity'] as num?)?.toInt() ?? 0,
     unitPrice: (json['unitPrice'] ?? json['price'] ?? 0) is num ? (json['unitPrice'] ?? json['price'] ?? 0).toDouble() : 0.0,
-    totalPrice: (json['totalPrice'] ?? json['total_price'] ?? 0) is num ? (json['totalPrice'] ?? json['total_price'] ?? 0).toDouble() : 0.0,
+    totalPrice: num.tryParse((json['totalPrice'] ?? json['total_price']).toString())?.toDouble() ?? 0,
     specialInstructions: json['specialInstructions'] as String?,
   );
 } 

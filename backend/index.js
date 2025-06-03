@@ -28,11 +28,13 @@ const discountRoutes = require('./routes/discounts');
 const onlineOrderRoutes = require('./routes/online_orders');
 const reportRoutes = require('./routes/reports');
 const debugController = require('./controllers/debugController');
+const ensureIdempotent = require('./middleware/idempotency');
 
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/tables', tableRoutes);
+app.use('/api/orders', ensureIdempotent);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/orders', orderItemRoutes);

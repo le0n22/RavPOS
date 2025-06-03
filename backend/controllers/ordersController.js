@@ -4,6 +4,7 @@ exports.createOrder = async (req, res) => {
   // Extract data from the request body.
   // The 'items' array is crucial and should contain objects with { productId, quantity, unitPrice, totalPrice, productName }
   const { userId, tableId, orderNumber, status, items } = req.body;
+  const key = req.idempotencyKey;
 
   // 1. Backend-side calculation of the total amount. Never trust the frontend for this.
   if (!items || items.length === 0) {
@@ -16,7 +17,7 @@ exports.createOrder = async (req, res) => {
 
   // 2. Use a transaction to ensure all or nothing is saved.
   try {
-    const newOrder = await knex.transaction(async (trx) => {
+    const result = await knex.transaction(async (trx) => {
       // 3. Insert the main order record with the CORRECT calculated total.
       const [order] = await trx('orders')
         .insert({
@@ -26,8 +27,12 @@ exports.createOrder = async (req, res) => {
           status: status || 'pending',
           total: calculatedTotal, // Use the backend-calculated total
           created_at: new Date(),
+          request_id: key
         })
         .returning('*');
+
+      // Cast total (string) to number
+      order.total = Number(order.total);
 
       // 4. Prepare the order items for insertion.
       const itemsToInsert = items.map(item => ({
@@ -42,10 +47,10 @@ exports.createOrder = async (req, res) => {
       // 5. Insert all order items.
       await trx('order_items').insert(itemsToInsert);
 
-      return order;
+      return { order, items: itemsToInsert };
     });
 
-    res.status(201).json(newOrder);
+    res.status(201).json(result);
 
   } catch (err) {
     console.error('[ERROR] Creating Order:', err);

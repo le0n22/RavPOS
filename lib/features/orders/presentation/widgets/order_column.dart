@@ -45,7 +45,7 @@ class OrderColumn extends ConsumerWidget {
                 ref.read(orderProvider.notifier).updateOrderStatus(data.id, status);
               },
               builder: (context, candidateData, rejectedData) {
-                return _buildOrderList(context);
+                return _buildOrderList(context, ref);
               },
             ),
           ),
@@ -102,7 +102,7 @@ class OrderColumn extends ConsumerWidget {
   }
 
   // Build the scrollable list of order cards
-  Widget _buildOrderList(BuildContext context) {
+  Widget _buildOrderList(BuildContext context, WidgetRef ref) {
     if (isLoading) {
       return _buildLoadingState();
     }
@@ -130,14 +130,39 @@ class OrderColumn extends ConsumerWidget {
           ),
           childWhenDragging: Opacity(
             opacity: 0.5,
-            child: OrderCard(
-              order: order,
-              onTap: () => _showOrderDetails(context, order),
+            child: Container(
+              decoration: BoxDecoration(
+                color: order.metadata?['is_new'] == true ? Colors.green.shade50 : Colors.white,
+                border: Border(
+                  left: BorderSide(
+                    color: order.metadata?['is_new'] == true ? Colors.green : Colors.transparent,
+                    width: 6,
+                  ),
+                ),
+              ),
+              child: OrderCard(
+                order: order,
+                onTap: () => _showOrderDetails(context, order),
+              ),
             ),
           ),
-          child: OrderCard(
-            order: order,
-            onTap: () => _showOrderDetails(context, order),
+          child: Container(
+            decoration: BoxDecoration(
+              color: order.metadata?['is_new'] == true ? Colors.green.shade50 : Colors.white,
+              border: Border(
+                left: BorderSide(
+                  color: order.metadata?['is_new'] == true ? Colors.green : Colors.transparent,
+                  width: 6,
+                ),
+              ),
+            ),
+            child: OrderCard(
+              order: order,
+              onTap: () {
+                ref.read(orderProvider.notifier).markAsSeen(order.id);
+                _showOrderDetails(context, order);
+              },
+            ),
           ),
         );
       },

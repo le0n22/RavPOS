@@ -27,56 +27,6 @@ class ExistingOrdersSection extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          // Header
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(8),
-                topRight: Radius.circular(8),
-              ),
-              border: Border(
-                left: BorderSide(color: Colors.grey.shade400, width: 4),
-              ),
-            ),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.receipt_long,
-                  color: Colors.grey.shade700,
-                  size: 20,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Mevcut Siparişler',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey.shade800,
-                  ),
-                ),
-                const Spacer(),
-                if (tableOrderState.existingOrders.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade600,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '${tableOrderState.existingOrders.length}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-
           // Orders list
           if (tableOrderState.existingOrders.isEmpty)
             Container(
