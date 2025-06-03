@@ -3,7 +3,8 @@ const knex = require('../db/knex');
 exports.createOrder = async (req, res) => {
   // Extract data from the request body.
   // The 'items' array is crucial and should contain objects with { productId, quantity, unitPrice, totalPrice, productName }
-  const { userId, tableId, orderNumber, status, items } = req.body;
+  const { userId, tableId, orderNumber, order_number, status, items } = req.body;
+  const orderNum = orderNumber || order_number;
   const key = req.idempotencyKey;
 
   // 1. Backend-side calculation of the total amount. Never trust the frontend for this.
@@ -23,7 +24,7 @@ exports.createOrder = async (req, res) => {
         .insert({
           user_id: userId,
           table_id: tableId,
-          order_number: orderNumber,
+          order_number: orderNum,
           status: status || 'pending',
           total: calculatedTotal, // Use the backend-calculated total
           created_at: new Date(),
