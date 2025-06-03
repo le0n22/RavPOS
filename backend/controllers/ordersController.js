@@ -2,8 +2,7 @@ const knex = require('../db/knex');
 
 exports.createOrder = async (req, res) => {
   // Extract data from the request body.
-  // The 'items' array is crucial and should contain objects with
-  // { productId, quantity, price, totalPrice, productName }.
+  // The 'items' array is crucial and should contain objects with { productId, quantity, price, totalPrice, productName }
   const { userId, tableId, orderNumber, order_number, status, items } = req.body;
   const orderNum = orderNumber || order_number;
   const key = req.idempotencyKey;
@@ -41,7 +40,7 @@ exports.createOrder = async (req, res) => {
         order_id: order.id,
         product_id: item.productId,
         quantity: item.quantity,
-        price: item.unitPrice,
+        price: item.price ?? item.unitPrice,
         total_price: item.totalPrice,
         product_name: item.productName,
       }));
