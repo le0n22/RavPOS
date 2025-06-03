@@ -32,6 +32,7 @@ _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
   metadata: json['metadata'] as Map<String, dynamic>?,
   currentOrderId: json['currentOrderId'] as String?,
   isNew: json['isNew'] as bool? ?? false,
+  requestId: json['request_id'] as String?,
 );
 
 Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
@@ -52,6 +53,7 @@ Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
       'metadata': instance.metadata,
       'currentOrderId': instance.currentOrderId,
       'isNew': instance.isNew,
+      'request_id': instance.requestId,
     };
 
 const _$OrderStatusEnumMap = {

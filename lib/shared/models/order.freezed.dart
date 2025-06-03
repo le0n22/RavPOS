@@ -37,6 +37,8 @@ mixin _$Order {
   Map<String, dynamic>? get metadata => throw _privateConstructorUsedError;
   String? get currentOrderId => throw _privateConstructorUsedError;
   bool get isNew => throw _privateConstructorUsedError;
+  @JsonKey(name: 'request_id')
+  String? get requestId => throw _privateConstructorUsedError;
 
   /// Serializes this Order to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -69,6 +71,7 @@ abstract class $OrderCopyWith<$Res> {
     Map<String, dynamic>? metadata,
     String? currentOrderId,
     bool isNew,
+    @JsonKey(name: 'request_id') String? requestId,
   });
 }
 
@@ -103,6 +106,7 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
     Object? metadata = freezed,
     Object? currentOrderId = freezed,
     Object? isNew = null,
+    Object? requestId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -170,6 +174,10 @@ class _$OrderCopyWithImpl<$Res, $Val extends Order>
                 ? _value.isNew
                 : isNew // ignore: cast_nullable_to_non_nullable
                       as bool,
+            requestId: freezed == requestId
+                ? _value.requestId
+                : requestId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -201,6 +209,7 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
     Map<String, dynamic>? metadata,
     String? currentOrderId,
     bool isNew,
+    @JsonKey(name: 'request_id') String? requestId,
   });
 }
 
@@ -234,6 +243,7 @@ class __$$OrderImplCopyWithImpl<$Res>
     Object? metadata = freezed,
     Object? currentOrderId = freezed,
     Object? isNew = null,
+    Object? requestId = freezed,
   }) {
     return _then(
       _$OrderImpl(
@@ -301,6 +311,10 @@ class __$$OrderImplCopyWithImpl<$Res>
             ? _value.isNew
             : isNew // ignore: cast_nullable_to_non_nullable
                   as bool,
+        requestId: freezed == requestId
+            ? _value.requestId
+            : requestId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -326,6 +340,7 @@ class _$OrderImpl extends _Order {
     final Map<String, dynamic>? metadata,
     this.currentOrderId,
     this.isNew = false,
+    @JsonKey(name: 'request_id') this.requestId,
   }) : _items = items,
        _metadata = metadata,
        super._();
@@ -380,10 +395,13 @@ class _$OrderImpl extends _Order {
   @override
   @JsonKey()
   final bool isNew;
+  @override
+  @JsonKey(name: 'request_id')
+  final String? requestId;
 
   @override
   String toString() {
-    return 'Order(id: $id, orderNumber: $orderNumber, totalAmount: $totalAmount, status: $status, tableId: $tableId, tableNumber: $tableNumber, items: $items, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt, discountAmount: $discountAmount, customerNote: $customerNote, paymentMethod: $paymentMethod, metadata: $metadata, currentOrderId: $currentOrderId, isNew: $isNew)';
+    return 'Order(id: $id, orderNumber: $orderNumber, totalAmount: $totalAmount, status: $status, tableId: $tableId, tableNumber: $tableNumber, items: $items, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt, discountAmount: $discountAmount, customerNote: $customerNote, paymentMethod: $paymentMethod, metadata: $metadata, currentOrderId: $currentOrderId, isNew: $isNew, requestId: $requestId)';
   }
 
   @override
@@ -415,7 +433,9 @@ class _$OrderImpl extends _Order {
             const DeepCollectionEquality().equals(other._metadata, _metadata) &&
             (identical(other.currentOrderId, currentOrderId) ||
                 other.currentOrderId == currentOrderId) &&
-            (identical(other.isNew, isNew) || other.isNew == isNew));
+            (identical(other.isNew, isNew) || other.isNew == isNew) &&
+            (identical(other.requestId, requestId) ||
+                other.requestId == requestId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -438,6 +458,7 @@ class _$OrderImpl extends _Order {
     const DeepCollectionEquality().hash(_metadata),
     currentOrderId,
     isNew,
+    requestId,
   );
 
   /// Create a copy of Order
@@ -472,6 +493,7 @@ abstract class _Order extends Order {
     final Map<String, dynamic>? metadata,
     final String? currentOrderId,
     final bool isNew,
+    @JsonKey(name: 'request_id') final String? requestId,
   }) = _$OrderImpl;
   const _Order._() : super._();
 
@@ -509,6 +531,9 @@ abstract class _Order extends Order {
   String? get currentOrderId;
   @override
   bool get isNew;
+  @override
+  @JsonKey(name: 'request_id')
+  String? get requestId;
 
   /// Create a copy of Order
   /// with the given fields replaced by the non-null parameter values.

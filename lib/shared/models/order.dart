@@ -26,6 +26,7 @@ class Order with _$Order {
     Map<String, dynamic>? metadata,
     String? currentOrderId,
     @Default(false) bool isNew,
+    @JsonKey(name: 'request_id') String? requestId,
   }) = _Order;
 
   factory Order.fromJson(Map<String, dynamic> json) =>

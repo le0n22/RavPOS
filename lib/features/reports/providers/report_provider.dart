@@ -160,7 +160,7 @@ class ReportNotifier extends AsyncNotifier<ReportData> {
     state = const AsyncValue.loading();
     try {
       final summary = await _orderRepository.fetchSummaryReport(startDate, endDate);
-      state = AsyncValue.data(summary);
+      state = AsyncValue.data(ReportData.fromJson(summary));
     } catch (error, stackTrace) {
       state = AsyncValue.error(error, stackTrace);
     }
