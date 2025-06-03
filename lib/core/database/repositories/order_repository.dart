@@ -3,6 +3,7 @@ import 'package:ravpos/shared/models/order.dart';
 import 'package:ravpos/shared/models/order_item.dart';
 import 'package:ravpos/core/network/api_service.dart';
 import 'package:ravpos/shared/models/order_status.dart';
+import 'package:flutter/foundation.dart';
 
 class OrderRepository {
   final ApiService api;
@@ -46,8 +47,40 @@ class OrderRepository {
   Future<List<Order>> getOrdersByStatus(OrderStatus status) async =>
       throw UnimplementedError('getOrdersByStatus not yet migrated');
 
-  Future<Order?> insertOrder(Order order, List<OrderItem> items) async =>
-      throw UnimplementedError('insertOrder not yet migrated');
+  /// Creates a new order (atomic) and returns the created Order.
+  Future<Order?> insertOrder(Order draft, List<OrderItem> items) async {
+    try {
+      final payload = {
+        'table_id' : draft.tableId,
+        'user_id'  : draft.userId,
+        'order_number': draft.orderNumber,
+        'status'   : draft.status.name,
+        'total'    : draft.totalAmount,
+        'items'    : items
+            .map((i) => {
+                  'product_id'  : i.productId,
+                  'product_name': i.productName,
+                  'quantity'    : i.quantity,
+                  'price'       : i.unitPrice,
+                  'total_price' : i.totalPrice,
+                })
+            .toList(),
+      };
+
+      final resp = await api.dio.post('/orders', data: payload);
+      final data = resp.data;
+
+      final order = Order.fromJson({
+        ...data['order'],
+        'items': data['items'],
+      });
+
+      return order;
+    } catch (e, st) {
+      debugPrint('insertOrder error: $e\n$st');
+      return null; // caller handles null ⇒ failure
+    }
+  }
 
   Future<bool> updateOrder(Order order,
       {List<OrderItem>? items}) async =>
