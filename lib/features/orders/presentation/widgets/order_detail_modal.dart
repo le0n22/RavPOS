@@ -263,7 +263,7 @@ class OrderDetailModal extends ConsumerWidget {
                                     ),
                                   );
                                   if (confirm == true) {
-                                    await ref.read(orderItemProvider(order.id).notifier).deleteOrderItem(order.id, item.id);
+                                    await ref.read(orderItemProvider(order.id).notifier).deleteOrderItem(order.id, item.id!);
                                   }
                                 },
                               ),

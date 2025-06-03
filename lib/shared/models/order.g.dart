@@ -7,52 +7,50 @@ part of 'order.dart';
 // **************************************************************************
 
 _$OrderImpl _$$OrderImplFromJson(Map<String, dynamic> json) => _$OrderImpl(
-  id: json['id'] as String,
-  orderNumber: json['orderNumber'] as String,
-  totalAmount: (json['totalAmount'] as num).toDouble(),
+  id: _idAsString(json, 'id') as String,
+  orderNumber: json['order_number'] as String,
+  totalAmount: _doubleFromJson(json['total']),
   status: $enumDecode(_$OrderStatusEnumMap, json['status']),
-  tableId: json['tableId'] as String?,
-  tableNumber: json['tableNumber'] as String?,
-  items: (json['items'] as List<dynamic>)
-      .map((e) => OrderItem.fromJson(e as Map<String, dynamic>))
-      .toList(),
-  userId: json['userId'] as String?,
-  createdAt: json['createdAt'] == null
+  tableId: json['table_id'] as String?,
+  tableNumber: json['table_number'] as String?,
+  items: json['items'] == null ? [] : _itemsFromJson(json['items']),
+  userId: json['user_id'] as String?,
+  createdAt: json['created_at'] == null
       ? null
-      : DateTime.parse(json['createdAt'] as String),
-  updatedAt: json['updatedAt'] == null
+      : DateTime.parse(json['created_at'] as String),
+  updatedAt: json['updated_at'] == null
       ? null
-      : DateTime.parse(json['updatedAt'] as String),
-  discountAmount: (json['discountAmount'] as num?)?.toDouble(),
-  customerNote: json['customerNote'] as String?,
+      : DateTime.parse(json['updated_at'] as String),
+  discountAmount: (json['discount_amount'] as num?)?.toDouble(),
+  customerNote: json['customer_note'] as String?,
   paymentMethod: $enumDecodeNullable(
     _$PaymentMethodEnumMap,
-    json['paymentMethod'],
+    json['payment_method'],
   ),
   metadata: json['metadata'] as Map<String, dynamic>?,
-  currentOrderId: json['currentOrderId'] as String?,
-  isNew: json['isNew'] as bool? ?? false,
+  currentOrderId: json['current_order_id'] as String?,
+  isNew: json['is_new'] as bool? ?? false,
   requestId: json['request_id'] as String?,
 );
 
 Map<String, dynamic> _$$OrderImplToJson(_$OrderImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'orderNumber': instance.orderNumber,
-      'totalAmount': instance.totalAmount,
+      'order_number': instance.orderNumber,
+      'total': _doubleToJson(instance.totalAmount),
       'status': _$OrderStatusEnumMap[instance.status]!,
-      'tableId': instance.tableId,
-      'tableNumber': instance.tableNumber,
-      'items': instance.items,
-      'userId': instance.userId,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'discountAmount': instance.discountAmount,
-      'customerNote': instance.customerNote,
-      'paymentMethod': _$PaymentMethodEnumMap[instance.paymentMethod],
+      'table_id': instance.tableId,
+      'table_number': instance.tableNumber,
+      'items': _itemsToJson(instance.items),
+      'user_id': instance.userId,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
+      'discount_amount': instance.discountAmount,
+      'customer_note': instance.customerNote,
+      'payment_method': _$PaymentMethodEnumMap[instance.paymentMethod],
       'metadata': instance.metadata,
-      'currentOrderId': instance.currentOrderId,
-      'isNew': instance.isNew,
+      'current_order_id': instance.currentOrderId,
+      'is_new': instance.isNew,
       'request_id': instance.requestId,
     };
 

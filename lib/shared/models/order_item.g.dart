@@ -8,7 +8,7 @@ part of 'order_item.dart';
 
 _$OrderItemImpl _$$OrderItemImplFromJson(Map<String, dynamic> json) =>
     _$OrderItemImpl(
-      id: json['id'] as String,
+      id: json['id'] as String?,
       productId: json['product_id'] as String,
       productName: json['product_name'] as String,
       quantity: (json['quantity'] as num).toInt(),

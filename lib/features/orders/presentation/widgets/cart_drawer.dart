@@ -120,7 +120,7 @@ class CartDrawer extends ConsumerWidget {
     final cartNotifier = ref.read(cartProvider.notifier);
     
     return Dismissible(
-      key: Key(item.id),
+      key: Key(item.id ?? ''),
       direction: DismissDirection.endToStart,
       background: Container(
         alignment: Alignment.centerRight,

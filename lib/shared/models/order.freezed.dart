@@ -21,12 +21,20 @@ Order _$OrderFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Order {
+  @JsonKey(readValue: _idAsString)
   String get id => throw _privateConstructorUsedError;
   String get orderNumber => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total', fromJson: _doubleFromJson, toJson: _doubleToJson)
   double get totalAmount => throw _privateConstructorUsedError;
   OrderStatus get status => throw _privateConstructorUsedError;
   String? get tableId => throw _privateConstructorUsedError;
   String? get tableNumber => throw _privateConstructorUsedError;
+  @JsonKey(
+    name: 'items',
+    defaultValue: <OrderItem>[],
+    fromJson: _itemsFromJson,
+    toJson: _itemsToJson,
+  )
   List<OrderItem> get items => throw _privateConstructorUsedError;
   String? get userId => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -55,12 +63,19 @@ abstract class $OrderCopyWith<$Res> {
       _$OrderCopyWithImpl<$Res, Order>;
   @useResult
   $Res call({
-    String id,
+    @JsonKey(readValue: _idAsString) String id,
     String orderNumber,
+    @JsonKey(name: 'total', fromJson: _doubleFromJson, toJson: _doubleToJson)
     double totalAmount,
     OrderStatus status,
     String? tableId,
     String? tableNumber,
+    @JsonKey(
+      name: 'items',
+      defaultValue: <OrderItem>[],
+      fromJson: _itemsFromJson,
+      toJson: _itemsToJson,
+    )
     List<OrderItem> items,
     String? userId,
     DateTime? createdAt,
@@ -193,12 +208,19 @@ abstract class _$$OrderImplCopyWith<$Res> implements $OrderCopyWith<$Res> {
   @override
   @useResult
   $Res call({
-    String id,
+    @JsonKey(readValue: _idAsString) String id,
     String orderNumber,
+    @JsonKey(name: 'total', fromJson: _doubleFromJson, toJson: _doubleToJson)
     double totalAmount,
     OrderStatus status,
     String? tableId,
     String? tableNumber,
+    @JsonKey(
+      name: 'items',
+      defaultValue: <OrderItem>[],
+      fromJson: _itemsFromJson,
+      toJson: _itemsToJson,
+    )
     List<OrderItem> items,
     String? userId,
     DateTime? createdAt,
@@ -321,15 +343,23 @@ class __$$OrderImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$OrderImpl extends _Order {
   const _$OrderImpl({
-    required this.id,
+    @JsonKey(readValue: _idAsString) required this.id,
     required this.orderNumber,
+    @JsonKey(name: 'total', fromJson: _doubleFromJson, toJson: _doubleToJson)
     required this.totalAmount,
     required this.status,
     this.tableId,
     this.tableNumber,
+    @JsonKey(
+      name: 'items',
+      defaultValue: <OrderItem>[],
+      fromJson: _itemsFromJson,
+      toJson: _itemsToJson,
+    )
     required final List<OrderItem> items,
     this.userId,
     this.createdAt,
@@ -349,10 +379,12 @@ class _$OrderImpl extends _Order {
       _$$OrderImplFromJson(json);
 
   @override
+  @JsonKey(readValue: _idAsString)
   final String id;
   @override
   final String orderNumber;
   @override
+  @JsonKey(name: 'total', fromJson: _doubleFromJson, toJson: _doubleToJson)
   final double totalAmount;
   @override
   final OrderStatus status;
@@ -362,6 +394,12 @@ class _$OrderImpl extends _Order {
   final String? tableNumber;
   final List<OrderItem> _items;
   @override
+  @JsonKey(
+    name: 'items',
+    defaultValue: <OrderItem>[],
+    fromJson: _itemsFromJson,
+    toJson: _itemsToJson,
+  )
   List<OrderItem> get items {
     if (_items is EqualUnmodifiableListView) return _items;
     // ignore: implicit_dynamic_type
@@ -477,12 +515,19 @@ class _$OrderImpl extends _Order {
 
 abstract class _Order extends Order {
   const factory _Order({
-    required final String id,
+    @JsonKey(readValue: _idAsString) required final String id,
     required final String orderNumber,
+    @JsonKey(name: 'total', fromJson: _doubleFromJson, toJson: _doubleToJson)
     required final double totalAmount,
     required final OrderStatus status,
     final String? tableId,
     final String? tableNumber,
+    @JsonKey(
+      name: 'items',
+      defaultValue: <OrderItem>[],
+      fromJson: _itemsFromJson,
+      toJson: _itemsToJson,
+    )
     required final List<OrderItem> items,
     final String? userId,
     final DateTime? createdAt,
@@ -500,10 +545,12 @@ abstract class _Order extends Order {
   factory _Order.fromJson(Map<String, dynamic> json) = _$OrderImpl.fromJson;
 
   @override
+  @JsonKey(readValue: _idAsString)
   String get id;
   @override
   String get orderNumber;
   @override
+  @JsonKey(name: 'total', fromJson: _doubleFromJson, toJson: _doubleToJson)
   double get totalAmount;
   @override
   OrderStatus get status;
@@ -512,6 +559,12 @@ abstract class _Order extends Order {
   @override
   String? get tableNumber;
   @override
+  @JsonKey(
+    name: 'items',
+    defaultValue: <OrderItem>[],
+    fromJson: _itemsFromJson,
+    toJson: _itemsToJson,
+  )
   List<OrderItem> get items;
   @override
   String? get userId;

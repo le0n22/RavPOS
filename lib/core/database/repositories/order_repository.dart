@@ -51,20 +51,18 @@ class OrderRepository {
   Future<Order?> insertOrder(Order draft, List<OrderItem> items) async {
     try {
       final payload = {
-        'table_id' : draft.tableId,
-        'user_id'  : draft.userId,
+        'tableId' : draft.tableId,
+        'userId'  : draft.userId,
         'orderNumber': draft.orderNumber,
         'status'   : draft.status.name,
         'total'    : draft.totalAmount,
-        'items'    : items
-            .map((i) => {
-                  'productId'  : i.productId,
-                  'productName': i.productName,
-                  'quantity'   : i.quantity,
-                  'price'      : i.unitPrice,
-                  'totalPrice' : i.totalPrice,
-                })
-            .toList(),
+        'items'    : items.map((i) => {
+              'productId'  : i.productId,
+              'productName': i.productName,
+              'quantity'   : i.quantity,
+              'unitPrice'  : i.unitPrice,
+              'totalPrice' : i.totalPrice,
+            }).toList(),
       };
 
       final resp = await api.dio.post('/orders', data: payload);
